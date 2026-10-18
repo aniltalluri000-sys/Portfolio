@@ -1,6 +1,10 @@
 # TALLURI ANIL BABU — Cybersecurity Portfolio
 
-A responsive, static portfolio website highlighting cybersecurity interests, projects, forensic experience, education, tools, and certifications.
+Cybersecurity portfolio of TALLURI ANIL BABU showcasing security projects, technical skills, certifications, and professional experience.
+
+This responsive static website features animated visuals, interactive project and profile previews, and a printable résumé.
+
+**Repository:** [github.com/aniltalluri000-sys/Portfolio](https://github.com/aniltalluri000-sys/Portfolio)
 
 ## Project structure
 
@@ -19,27 +23,16 @@ A responsive, static portfolio website highlighting cybersecurity interests, pro
 
 ## Run locally
 
-No build tools or package installation are required. Open `index.html` in a browser, or serve the project root with a local static web server.
+No build tools or package installation are required. Open `index.html` in a browser, or serve the project root with any local static web server.
 
 ## Publish with GitHub Pages
 
-1. Create a GitHub repository for the portfolio.
-2. From this project folder, initialize Git and push the files to your new repository:
+The source is hosted in [the Portfolio repository](https://github.com/aniltalluri000-sys/Portfolio). To publish it as a website:
 
-   ```powershell
-   git init -b main
-   git add .
-   git commit -m "Add cybersecurity portfolio"
-   git remote add origin https://github.com/<username>/<repository>.git
-   git push -u origin main
-   ```
-
-   Replace `<username>` and `<repository>` with your GitHub account and repository name.
-3. Upload the contents of this folder, keeping the directory structure above, if you prefer GitHub's web interface.
-4. In the repository, open **Settings → Pages**.
-5. Under **Build and deployment**, select **Deploy from a branch**.
-6. Select the `main` branch and `/ (root)` folder, then save.
-7. Wait for the Pages deployment to finish. The site URL will appear in the Pages settings.
+1. Open the repository's **Settings → Pages**.
+2. Under **Build and deployment**, select **Deploy from a branch**.
+3. Choose the `main` branch and `/ (root)` folder, then save.
+4. Wait for the deployment to finish. GitHub will show the published URL in the Pages settings.
 
 Because this is a plain static site, no framework, build command, or output folder needs to be configured.
 
