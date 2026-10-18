@@ -1,0 +1,181 @@
+/* Motion layer — boot intro, decrypt headlines, hero field, tilt cards, magnetic buttons, scroll-drawn lines. */
+
+/* ---------- Boot intro ---------- */
+.boot-screen {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 50% 45%, #0a1c2d 0%, #07111f 62%);
+  color: var(--aqua);
+  font-family: var(--mono);
+  cursor: pointer;
+  transition: clip-path .75s cubic-bezier(.77,0,.18,1), opacity .4s ease .45s;
+  clip-path: inset(0 0 0 0);
+}
+.boot-screen.is-leaving { clip-path: inset(0 0 100% 0); opacity: 0; pointer-events: none; }
+.boot-panel { width: min(420px, calc(100% - 48px)); }
+.boot-lines { display: grid; gap: 6px; min-height: 118px; margin: 0 0 20px; padding: 0; list-style: none; font-size: 10px; letter-spacing: .04em; }
+.boot-lines li { display: flex; justify-content: space-between; gap: 18px; color: #8fb3c7; opacity: 0; transform: translateX(-8px); animation: boot-line .32s cubic-bezier(.2,.8,.2,1) forwards; }
+.boot-lines li b { color: var(--aqua); font-weight: 500; }
+.boot-bar { position: relative; height: 2px; overflow: hidden; background: #12283a; }
+.boot-bar::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--aqua), var(--blue));
+  box-shadow: 0 0 12px rgb(57 226 192 / 60%);
+  content: "";
+  transform: scaleX(var(--boot-progress, 0));
+  transform-origin: left;
+  transition: transform .18s linear;
+}
+.boot-meta { display: flex; justify-content: space-between; margin-top: 10px; color: #5f7f94; font-size: 8px; letter-spacing: .12em; }
+.boot-mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 26px;
+  place-items: center;
+  border: 1px solid rgb(57 226 192 / 55%);
+  border-radius: 8px;
+  color: var(--aqua);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  animation: boot-mark 1.4s ease-in-out infinite;
+}
+@keyframes boot-line { to { opacity: 1; transform: translateX(0); } }
+@keyframes boot-mark {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(57 226 192 / 0%); }
+  50% { box-shadow: 0 0 0 7px rgb(57 226 192 / 8%), 0 0 22px rgb(57 226 192 / 22%); }
+}
+/* Cover the page until the boot screen mounts, and hold the hero entrance until it lifts */
+html.is-booting::before { position: fixed; z-index: 199; inset: 0; background: #07111f; content: ""; }
+html.is-booting .hero-copy > * { animation-play-state: paused; }
+
+/* ---------- Decrypting text ---------- */
+.decrypt-char { color: var(--aqua); opacity: .75; }
+
+/* ---------- Hero particle field ---------- */
+.hero-field {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease .3s;
+}
+.hero-field.is-live { opacity: 1; }
+
+/* Pointer parallax for hero art layers (independent `translate` composes with existing animations) */
+.hero-art .network-graphic { translate: calc(var(--hx, 0) * -14px) calc(var(--hy, 0) * -10px); transition: translate .5s cubic-bezier(.2,.8,.2,1); }
+.hero-art .profile-window { translate: calc(var(--hx, 0) * 10px) calc(var(--hy, 0) * 8px); transition: translate .5s cubic-bezier(.2,.8,.2,1); }
+.hero-art .art-coordinate { translate: calc(var(--hx, 0) * 18px) 0; transition: translate .6s cubic-bezier(.2,.8,.2,1); }
+
+/* ---------- Typed code profile ---------- */
+.code-profile.is-typing p { min-height: 2.05em; }
+.code-profile .type-caret {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  margin-left: 2px;
+  background: var(--aqua);
+  vertical-align: -2px;
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+/* ---------- Tilt + spotlight cards ---------- */
+.tilt-card { transform-style: preserve-3d; will-change: transform; }
+html.motion-ready .reveal-item.is-visible.is-tilting,
+.tilt-card.is-tilting {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-4px);
+  transition: transform .14s ease-out, border-color .25s ease, box-shadow .25s ease, background .2s ease, opacity .65s ease;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 28%), 0 0 0 1px rgb(57 226 192 / 10%);
+}
+.focus-card::after, .work-card::after, .tool-card::after, .cert-card::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(57 226 192 / 11%), transparent 60%);
+  content: "";
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+.tool-card { position: relative; overflow: hidden; }
+.is-tilting::after { opacity: 1; }
+
+/* Tags cascade in once their card is revealed (fill-mode backwards keeps hover transitions intact) */
+html.motion-ready .reveal-item:not(.is-visible) :is(.preview-tags, .card-tags, .tool-list) > span { opacity: 0; }
+html.motion-ready .reveal-item.is-visible :is(.preview-tags, .card-tags, .tool-list) > span {
+  animation: tag-in .45s cubic-bezier(.2,.9,.25,1.2) backwards;
+  animation-delay: calc(var(--reveal-delay, 0ms) + 260ms + var(--tag-i, 0) * 70ms);
+}
+@keyframes tag-in { from { opacity: 0; transform: translateY(6px) scale(.94); } }
+
+/* ---------- Section kicker glitch ---------- */
+.section-kicker.is-visible > span { animation: kicker-draw .7s cubic-bezier(.2,.8,.2,1) both; transform-origin: left; }
+@keyframes kicker-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ---------- Magnetic buttons ---------- */
+.button.is-magnetic { translate: var(--bx, 0) var(--by, 0); transition: translate .35s cubic-bezier(.2,.8,.2,1), transform .2s ease, background .2s ease, border-color .2s ease; }
+.button.is-magnetic.is-pulled { transition: translate .08s linear, transform .2s ease, background .2s ease, border-color .2s ease; }
+.button, .preview-open { position: relative; overflow: hidden; }
+.button .ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .28;
+  pointer-events: none;
+  animation: ripple .6s ease-out forwards;
+}
+@keyframes ripple { to { transform: scale(22); opacity: 0; } }
+
+/* ---------- Scroll-drawn timeline + education ---------- */
+html.motion-ready .timeline::before { transform: scaleY(var(--draw, 0)); transform-origin: top; }
+html.motion-ready .timeline-row::before { transform: scale(0); transition: transform .5s cubic-bezier(.2,.9,.25,1.4) calc(var(--reveal-delay, 0ms) + 200ms); }
+html.motion-ready .timeline-row.is-visible::before { transform: scale(1); }
+html.motion-ready .education-row { position: relative; }
+html.motion-ready .education-row::after {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--aqua), transparent 70%);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1s cubic-bezier(.2,.8,.2,1) calc(var(--reveal-delay, 0ms) + 120ms);
+}
+html.motion-ready .education-row.is-visible::after { transform: scaleX(1); }
+
+/* ---------- Contact signal rings ---------- */
+.contact-card::before {
+  position: absolute;
+  top: 20px;
+  right: 65px;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  content: "";
+  box-shadow: 0 0 0 0 rgb(57 226 192 / 25%);
+  animation: signal-ring 3.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes signal-ring {
+  0% { box-shadow: 0 0 0 0 rgb(57 226 192 / 32%), 0 0 0 0 rgb(57 226 192 / 20%); }
+  100% { box-shadow: 0 0 0 150px rgb(57 226 192 / 0%), 0 0 0 90px rgb(57 226 192 / 0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen, .hero-field, .contact-card::before { display: none; }
+  .hero-art .network-graphic, .hero-art .profile-window, .hero-art .art-coordinate, .button.is-magnetic { translate: none; }
+}
