@@ -6,6 +6,8 @@ This responsive static website features animated visuals, interactive project an
 
 **Repository:** [github.com/aniltalluri000-sys/Portfolio](https://github.com/aniltalluri000-sys/Portfolio)
 
+**Live site:** [talluri-anil-babu-portfolio.netlify.app](https://talluri-anil-babu-portfolio.netlify.app/)
+
 ## Project structure
 
 ```text
@@ -25,16 +27,13 @@ This responsive static website features animated visuals, interactive project an
 
 No build tools or package installation are required. Open `index.html` in a browser, or serve the project root with any local static web server.
 
-## Publish with GitHub Pages
+## Deployment
 
-The source is hosted in [the Portfolio repository](https://github.com/aniltalluri000-sys/Portfolio). To publish it as a website:
+The site is deployed through Netlify from the `main` branch of [the Portfolio GitHub repository](https://github.com/aniltalluri000-sys/Portfolio). New commits to `main` trigger a production deploy automatically.
 
-1. Open the repository's **Settings → Pages**.
-2. Under **Build and deployment**, select **Deploy from a branch**.
-3. Choose the `main` branch and `/ (root)` folder, then save.
-4. Wait for the deployment to finish. GitHub will show the published URL in the Pages settings.
+The live portfolio is available at [talluri-anil-babu-portfolio.netlify.app](https://talluri-anil-babu-portfolio.netlify.app/). It is a plain static site, so no build command is needed; Netlify publishes the repository root.
 
-Because this is a plain static site, no framework, build command, or output folder needs to be configured.
+To connect another copy, create a new Netlify project, import the GitHub repository, select the `main` branch, leave the build command empty, and set the publish directory to `.`.
 
 ## Customize
 
