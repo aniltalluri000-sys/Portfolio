@@ -10,7 +10,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/motion.css">
+    <script>
+      (() => {
+        try {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches || sessionStorage.getItem("ab-booted") === "1") return;
+        } catch { return; }
+        const root = document.documentElement;
+        root.classList.add("is-booting");
+        setTimeout(() => root.classList.remove("is-booting"), 4000);
+      })();
+    </script>
     <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/motion.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
